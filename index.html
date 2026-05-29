@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -226,13 +226,37 @@
         </p>
       </div>
 
-      <div class="contact-card">
-        <div class="contact-card__label" data-en="Get In Touch" data-nl="Neem Contact Op">Get In Touch</div>
-        <a href="mailto:notasmith2049@gmail.com" class="contact-card__email">notasmith2049@gmail.com</a>
-        <p class="contact-card__hint" data-en="Click to send an email or copy the address." data-nl="Klik om een e-mail te sturen of kopieer het adres.">
-          Click to send an email or copy the address.
-        </p>
-        <a href="mailto:notasmith2049@gmail.com" class="btn btn--primary" data-en="Send Message" data-nl="Bericht Versturen">Send Message</a>
+      <div class="contact-form-wrap">
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-field">
+            <label class="form-label" for="formName" data-en="Name" data-nl="Naam">Name</label>
+            <input type="text" id="formName" name="name" class="form-input" required
+              data-en="Your name" data-nl="Uw naam" placeholder="Your name">
+            <div class="form-line"></div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="formEmail" data-en="Email" data-nl="E-mail">Email</label>
+            <input type="email" id="formEmail" name="email" class="form-input" required
+              data-en="your@email.com" data-nl="uw@email.com" placeholder="your@email.com">
+            <div class="form-line"></div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="formMessage" data-en="Message" data-nl="Bericht">Message</label>
+            <textarea id="formMessage" name="message" class="form-input form-textarea" rows="4" required
+              data-en="Tell us about your project..." data-nl="Vertel ons over uw project..." placeholder="Tell us about your project..."></textarea>
+            <div class="form-line"></div>
+          </div>
+          <button type="submit" class="btn btn--primary form-submit" data-en="Send Message" data-nl="Bericht Versturen">
+            <span class="form-submit__text" data-en="Send Message" data-nl="Bericht Versturen">Send Message</span>
+            <span class="form-submit__loader"></span>
+          </button>
+          <div class="form-success" data-en="Message sent successfully. We will respond within 24 hours." data-nl="Bericht verzonden. We reageren binnen 24 uur.">
+            Message sent successfully. We will respond within 24 hours.
+          </div>
+          <div class="form-error" data-en="Something went wrong. Please try again." data-nl="Er is iets misgegaan. Probeer het opnieuw.">
+            Something went wrong. Please try again.
+          </div>
+        </form>
       </div>
     </div>
   </section>
@@ -241,9 +265,6 @@
   <footer class="footer">
     <div class="container footer__inner">
       <p class="footer__text" data-en="2026 AgentSetup" data-nl="2026 AgentSetup">2026 AgentSetup</p>
-      <p class="footer__email">
-        <a href="mailto:notasmith2049@gmail.com">notasmith2049@gmail.com</a>
-      </p>
     </div>
   </footer>
 

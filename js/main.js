@@ -32,4 +32,132 @@ document.addEventListener('DOMContentLoaded', () => {
       switchLang(btn.getAttribute('data-lang'));
     });
   });
+
+  // === Contact Form ===
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  const submitBtn = form.querySelector('.form-submit');
+  const successEl = form.querySelector('.form-success');
+  const errorEl = form.querySelector('.form-error');
+  const fields = form.querySelectorAll('.form-field');
+
+  // Staggered reveal on scroll into view
+  const formWrap = document.querySelector('.contact-form-wrap');
+  if (formWrap) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          fields.forEach((field, i) => {
+            field.style.opacity = '0';
+            field.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              field.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+              field.style.opacity = '1';
+              field.style.transform = 'translateY(0)';
+            }, i * 150);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    observer.observe(formWrap);
+  }
+
+  // Set initial state for fields
+  fields.forEach(f => {
+    f.style.opacity = '0';
+    f.style.transform = 'translateY(20px)';
+  });
+  // Reveal immediately if already visible
+  setTimeout(() => {
+    fields.forEach((field, i) => {
+      field.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      field.style.opacity = '1';
+      field.style.transform = 'translateY(0)';
+    });
+  }, 300);
+
+  function setLoading(loading) {
+    submitBtn.classList.toggle('loading', loading);
+    submitBtn.disabled = loading;
+  }
+
+  function showSuccess() {
+    successEl.classList.add('visible');
+    errorEl.classList.remove('visible');
+    fields.forEach(f => f.classList.remove('error'));
+    form.reset();
+  }
+
+  function showError(msg) {
+    errorEl.textContent = msg || (currentLang() === 'nl'
+      ? 'Er is iets misgegaan. Probeer het opnieuw.'
+      : 'Something went wrong. Please try again.');
+    errorEl.classList.add('visible');
+    successEl.classList.remove('visible');
+  }
+
+  function showFieldError(field) {
+    field.classList.add('error');
+    // Shake animation
+    field.style.animation = 'none';
+    void field.offsetWidth; // reflow
+    field.style.animation = 'shake 0.4s ease-out';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Hide previous messages
+    successEl.classList.remove('visible');
+    errorEl.classList.remove('visible');
+    fields.forEach(f => f.classList.remove('error'));
+
+    // Validate
+    const name = form.querySelector('#formName').value.trim();
+    const email = form.querySelector('#formEmail').value.trim();
+    const message = form.querySelector('#formMessage').value.trim();
+    let valid = true;
+
+    if (!name) {
+      showFieldError(form.querySelector('#formName').closest('.form-field'));
+      valid = false;
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showFieldError(form.querySelector('#formEmail').closest('.form-field'));
+      valid = false;
+    }
+    if (!message) {
+      showFieldError(form.querySelector('#formMessage').closest('.form-field'));
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // Simulate submission (UI only)
+    setLoading(true);
+
+    try {
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Random failure for demo (1 in 5 chance)
+      if (Math.random() < 0.15) {
+        throw new Error('Simulated error');
+      }
+
+      showSuccess();
+      submitBtn.classList.add('success');
+      setTimeout(() => submitBtn.classList.remove('success'), 3000);
+    } catch (err) {
+      showError();
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  // Close success/error on click
+  successEl.addEventListener('click', () => successEl.classList.remove('visible'));
+  errorEl.addEventListener('click', () => errorEl.classList.remove('visible'));
 });
