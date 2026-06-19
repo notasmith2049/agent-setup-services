@@ -135,23 +135,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!valid) return;
 
-    // Simulate submission (UI only)
+    // Submit to Cloudflare Worker
     setLoading(true);
 
     try {
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const API_URL = window.CONTACT_API_URL || '/api/contact';
 
-      // Random failure for demo (1 in 5 chance)
-      if (Math.random() < 0.15) {
-        throw new Error('Simulated error');
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Submission failed');
       }
 
       showSuccess();
       submitBtn.classList.add('success');
       setTimeout(() => submitBtn.classList.remove('success'), 3000);
     } catch (err) {
-      showError();
+      showError(err.message);
     } finally {
       setLoading(false);
     }
