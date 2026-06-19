@@ -11,13 +11,29 @@ export async function onRequest(context) {
 
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   };
 
   // CORS preflight
   if (request.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // GET /api/debug — проверка переменных окружения
+  if (request.method === 'GET') {
+    const url = new URL(request.url);
+    if (url.pathname === '/api/debug') {
+      return new Response(JSON.stringify({
+        has_resend_key: !!env.RESEND_API_KEY,
+        resend_key_prefix: env.RESEND_API_KEY ? env.RESEND_API_KEY.substring(0, 6) + '...' : null,
+        contact_email: env.CONTACT_EMAIL || 'not set (using default)',
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      });
+    }
+    return new Response('Not Found', { status: 404 });
   }
 
   if (request.method !== 'POST') {
