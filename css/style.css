@@ -86,8 +86,8 @@ a:hover{color:#fff;text-shadow:0 0 14px var(--purple-glow),0 0 28px rgba(255,45,
 
 /* === Hero === */
 .hero{
-  padding:160px 0 100px;position:relative;overflow:hidden;
-  min-height:85vh;display:flex;align-items:center;
+  padding:100px 0 60px;position:relative;overflow:hidden;
+  min-height:60vh;display:flex;align-items:center;
 }
 .hero__content{max-width:680px}
 .hero__overline{
@@ -101,12 +101,12 @@ a:hover{color:#fff;text-shadow:0 0 14px var(--purple-glow),0 0 28px rgba(255,45,
   font-size:clamp(2.8rem,7vw,5rem);font-weight:400;
   line-height:1.05;margin-bottom:24px;letter-spacing:.06em;
   color:#fce7f3;
-  text-shadow:0 0 10px rgba(255,45,149,.9),0 0 30px rgba(224,64,251,.7),0 0 60px rgba(157,78,221,.5),0 2px 4px rgba(0,0,0,.8);
+  text-shadow:0 0 6px rgba(255,45,149,.5),0 0 20px rgba(224,64,251,.3),0 2px 4px rgba(0,0,0,.8);
 }
 .hero__title-accent{
-  display:block;color:transparent;
-  -webkit-text-stroke:1px var(--neon-magenta);
-  font-weight:300;
+  display:block;color:var(--neon-pink);
+  font-weight:400;
+  text-shadow:0 0 6px rgba(255,45,149,.4);
 }
 .hero__subtitle{
   font-size:1.05rem;color:var(--txt2);
